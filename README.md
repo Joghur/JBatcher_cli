@@ -2,3 +2,6 @@
 Java version of Batcher
 
 java 8
+
+Depend:
+https://github.com/drewnoakes/metadata-extractor/releases
