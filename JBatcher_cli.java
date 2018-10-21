@@ -1,7 +1,3 @@
-/*
- */
-package jbatcher_cli;
-
 /**
  *
  * @author mint
