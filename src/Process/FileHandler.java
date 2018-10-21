@@ -1,8 +1,16 @@
 /*
  */
-package jbatcher_cli;
+package Process;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.activation.MimetypesFileTypeMap;
 
 /**
  *
@@ -14,9 +22,15 @@ public class FileHandler {
     private String fileName;
     private ArrayList<String> originalImageList;
     private ArrayList<String> copiedImageList;
+    private File rootFolder;
+    private File originalFolder;
+    private File workFolder;
 
-    public FileHandler() {
+    public FileHandler(String root) {
+        rootFolder = new File(root);
     }
+
+    ;
 
     public String getFileAddress() {
         return fileAddress;
@@ -24,6 +38,18 @@ public class FileHandler {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public File getRootFolder() {
+        return rootFolder;
+    }
+
+    public File getOriginalFolder() {
+        return originalFolder;
+    }
+
+    public File getWorkFolder() {
+        return workFolder;
     }
 
     public ArrayList<String> getOriginalImageList() {
@@ -38,19 +64,50 @@ public class FileHandler {
         this.fileName = fileName;
     }
 
-    public void makeNewFolder(String rootFolder) {
+    public boolean makeNewFolder(String newFolder) {
+        File nf = new File(rootFolder.getAbsolutePath() + "/" + newFolder);
+        return nf.mkdir();
+    }
+
+    public void makeWorkFolder(String newFolder) {
+        originalFolder = new File(rootFolder.getAbsolutePath() + "/" + newFolder);
+        if (this.makeNewFolder("work" + newFolder)) {
+            System.out.println("Folder skabt");
+            workFolder = new File(rootFolder.getAbsolutePath() + "/" + "work" + newFolder);
+
+        } else {
+            System.out.println("Folder blev ikke skabt");
+        }
 
     }
 
-    public void copyToWorkFolder(String workFolder) {
+    public void copyToWorkFolder(File original, File destination) {
+        Path orig;
+        Path dest;
+        String[] files = original.list();
+
+        for (String file : files) {
+            if (isImage(file)) {
+                try {
+                    orig = Paths.get(original.getAbsolutePath()+"/" + file);
+                    dest = Paths.get(destination.getAbsolutePath()+"/" + file);
+                    Files.copy(orig, dest);
+                } catch (IOException ex) {
+                    System.out.println("Error");
+                    }
+            }
+        }
+    }
+
+    public boolean isImage(String file) {
+        String[] mimes = {"jpg", "raw", "png"};
+        for (String mime : mimes) {
+            if (file.toLowerCase().endsWith(mime)) {
+                return true;
+            }
+        }
+        return false;
 
     }
 
-    public void logger(String text) {
-
-    }
-
-    public void fillImageList(String fileAdress, ArrayList<String> inages) {
-
-    }
 }
