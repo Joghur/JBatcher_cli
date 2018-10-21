@@ -1,3 +1,5 @@
+package Process;
+
 /*
  */
 
@@ -10,7 +12,5 @@ public class ImageProcessor {
     private String filename;
     
     
-    public boolean isImage(String fileAddress){
-        return false;
-    }
+
 }

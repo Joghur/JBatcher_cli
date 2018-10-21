@@ -8,9 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.activation.MimetypesFileTypeMap;
 
 /**
  *
@@ -71,14 +68,8 @@ public class FileHandler {
 
     public void makeWorkFolder(String newFolder) {
         originalFolder = new File(rootFolder.getAbsolutePath() + "/" + newFolder);
-        if (this.makeNewFolder("work" + newFolder)) {
-            System.out.println("Folder skabt");
-            workFolder = new File(rootFolder.getAbsolutePath() + "/" + "work" + newFolder);
-
-        } else {
-            System.out.println("Folder blev ikke skabt");
-        }
-
+        this.makeNewFolder("work" + newFolder);
+        workFolder = new File(rootFolder.getAbsolutePath() + "/" + "work" + newFolder);
     }
 
     public void copyToWorkFolder(File original, File destination) {
@@ -89,12 +80,12 @@ public class FileHandler {
         for (String file : files) {
             if (isImage(file)) {
                 try {
-                    orig = Paths.get(original.getAbsolutePath()+"/" + file);
-                    dest = Paths.get(destination.getAbsolutePath()+"/" + file);
+                    orig = Paths.get(original.getAbsolutePath() + "/" + file);
+                    dest = Paths.get(destination.getAbsolutePath() + "/" + file);
                     Files.copy(orig, dest);
                 } catch (IOException ex) {
                     System.out.println("Error");
-                    }
+                }
             }
         }
     }
