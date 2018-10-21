@@ -1,6 +1,11 @@
 package Process;
 
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -22,8 +27,14 @@ public class FileRenamer {
 
     }
 
-    public void renameRegex() {
-
+    public void renameRegex(File imagePath) {
+        try {
+            Metadata metadata = ImageMetadataReader.readMetadata(imagePath);
+        } catch (ImageProcessingException ex) {
+            System.out.println("Exif error. ImageProcessingException");
+        } catch (IOException ex) {
+            System.out.println("Exif error. IOException");
+        }
     }
 
     public void renameConcurrent() {

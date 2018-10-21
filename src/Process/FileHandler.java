@@ -27,8 +27,6 @@ public class FileHandler {
         rootFolder = new File(root);
     }
 
-    ;
-
     public String getFileAddress() {
         return fileAddress;
     }
